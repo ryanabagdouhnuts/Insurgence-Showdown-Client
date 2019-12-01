@@ -8,18 +8,18 @@ const child_process = require("child_process");
 const rootDir = path.resolve(__dirname, '..');
 process.chdir(rootDir);
 
-if (!fs.existsSync('data/Pokemon-Showdown')) {
-	child_process.execSync('git clone https://github.com/Zarel/Pokemon-Showdown.git', {
+if (!fs.existsSync('data/Insurgence-Showdown')) {
+	child_process.execSync('git clone https://github.com/Poilerwags/Insurgence-Showdown.git', {
 		cwd: 'data',
 	});
 }
 
 process.stdout.write("Syncing data from Git repository... ");
-child_process.execSync('git pull', {cwd: 'data/Pokemon-Showdown'});
-child_process.execSync('npm run build', {cwd: 'data/Pokemon-Showdown'});
+child_process.execSync('git pull', {cwd: 'data/Insurgence-Showdown'});
+child_process.execSync('npm run build', {cwd: 'data/Insurgence-Showdown'});
 console.log("DONE");
 
-const Dex = require('../data/Pokemon-Showdown/.sim-dist/dex').Dex;
+const Dex = require('../data/Insurgence-Showdown/.sim-dist/dex').Dex;
 const toID = Dex.getId;
 process.stdout.write("Loading gen 6 data... ");
 Dex.includeData();
@@ -828,7 +828,7 @@ console.log("DONE");
 process.stdout.write("Building `data/pokedex.js`... ");
 
 {
-	const Pokedex = requireNoCache('../data/Pokemon-Showdown/data/pokedex.js').BattlePokedex;
+	const Pokedex = requireNoCache('../data/Insurgence-Showdown/data/pokedex.js').BattlePokedex;
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
@@ -854,7 +854,7 @@ console.log("DONE");
 process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.js`...");
 
 {
-	const Movedex = requireNoCache('../data/Pokemon-Showdown/data/moves.js').BattleMovedex;
+	const Movedex = requireNoCache('../data/Insurgence-Showdown/data/moves.js').BattleMovedex;
 	const buf = 'exports.BattleMovedex = ' + es3stringify(Movedex) + ';';
 	fs.writeFileSync('data/moves.js', buf);
 }
@@ -864,7 +864,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Items = requireNoCache('../data/Pokemon-Showdown/data/items.js').BattleItems;
+	const Items = requireNoCache('../data/Insurgence-Showdown/data/items.js').BattleItems;
 	const buf = 'exports.BattleItems = ' + es3stringify(Items) + ';';
 	fs.writeFileSync('data/items.js', buf);
 }
@@ -874,7 +874,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Abilities = requireNoCache('../data/Pokemon-Showdown/data/abilities.js').BattleAbilities;
+	const Abilities = requireNoCache('../data/Insurgence-Showdown/data/abilities.js').BattleAbilities;
 	const buf = 'exports.BattleAbilities = ' + es3stringify(Abilities) + ';';
 	fs.writeFileSync('data/abilities.js', buf);
 }
@@ -884,7 +884,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const TypeChart = requireNoCache('../data/Pokemon-Showdown/data/typechart.js').BattleTypeChart;
+	const TypeChart = requireNoCache('../data/Insurgence-Showdown/data/typechart.js').BattleTypeChart;
 	const buf = 'exports.BattleTypeChart = ' + es3stringify(TypeChart) + ';';
 	fs.writeFileSync('data/typechart.js', buf);
 }
@@ -894,7 +894,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Aliases = requireNoCache('../data/Pokemon-Showdown/data/aliases.js').BattleAliases;
+	const Aliases = requireNoCache('../data/Insurgence-Showdown/data/aliases.js').BattleAliases;
 	const buf = 'exports.BattleAliases = ' + es3stringify(Aliases) + ';';
 	fs.writeFileSync('data/aliases.js', buf);
 }
@@ -904,7 +904,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const FormatsData = requireNoCache('../data/Pokemon-Showdown/data/formats-data.js').BattleFormatsData;
+	const FormatsData = requireNoCache('../data/Insurgence-Showdown/data/formats-data.js').BattleFormatsData;
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
 }
@@ -914,7 +914,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Learnsets = requireNoCache('../data/Pokemon-Showdown/data/learnsets.js').BattleLearnsets;
+	const Learnsets = requireNoCache('../data/Insurgence-Showdown/data/learnsets.js').BattleLearnsets;
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('data/learnsets.js', buf);
 }

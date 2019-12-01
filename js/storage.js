@@ -3,7 +3,7 @@ Config.origindomain = 'play.pokemonshowdown.com';
 // address bar is `Config.origindomain`.
 Config.defaultserver = {
 	id: 'showdown',
-	host: 'sim2.psim.us',
+	host: 'http://apl-insurgence.herokuapp.com/',
 	port: 443,
 	httpport: 8000,
 	altport: 80,
