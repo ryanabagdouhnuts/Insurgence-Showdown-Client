@@ -91,16 +91,16 @@ function ThemeFooterTemplate() {
 	<script>
 		soundManager.setup({url: '//play.pokemonshowdown.com/swf/'});
 	</script>
-	<script src="//play.pokemonshowdown.com/config/config.js?388406a3"></script>
+	<script src="//play.pokemonshowdown.com/config/config.js?f0f8fd16"></script>
 	<script src="//play.pokemonshowdown.com/js/battledata.js?5d783710"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex-mini.js?0.7817841147012605"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex-mini-bw.js?0.8735730523736742"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex-mini.js?0.03869437799475817"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex-mini-bw.js?0.3424692425289644"></script>
 	<script src="//play.pokemonshowdown.com/data/graphics.js?cfaf5f7f"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex.js?e76eedc6"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex.js?f1848c82"></script>
 	<script src="//play.pokemonshowdown.com/data/items.js?25e770ce"></script>
-	<script src="//play.pokemonshowdown.com/data/moves.js?5f3a338a"></script>
+	<script src="//play.pokemonshowdown.com/data/moves.js?70083b95"></script>
 	<script src="//play.pokemonshowdown.com/data/abilities.js?81fbb593"></script>
-	<script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?43cf44de"></script>
+	<script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?13991cee"></script>
 	<script src="//play.pokemonshowdown.com/js/battle-tooltips.js?b3f49851"></script>
 	<script src="//play.pokemonshowdown.com/js/battle.js?4fc19bc5"></script>
 	<script src="/js/replay.js?ae51f013"></script>
