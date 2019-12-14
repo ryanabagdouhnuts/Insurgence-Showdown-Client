@@ -649,7 +649,8 @@
 		if (!template) return '';
 		if (template.prevo) return template.prevo;
 		var baseSpecies = template.baseSpecies;
-		if (baseSpecies !== template.species && (baseSpecies === 'Rotom' || baseSpecies === 'Pumpkaboo' || baseSpecies === 'Necrozma')) {
+		if ((template.forme && template.forme.indexOf('Gmax') >= 0) ||
+			(baseSpecies !== template.species && (baseSpecies === 'Rotom' || baseSpecies === 'Pumpkaboo' || baseSpecies === 'Necrozma'))) {
 			return toID(template.baseSpecies);
 		}
 		return '';
@@ -839,8 +840,6 @@
 			}
 			var tierSet = table.tierSet;
 			var slices = table.formatSlices;
-			var agTierSet = [];
-			if (this.gen >= 6) agTierSet = [['header', "AG"], ['pokemon', 'rayquazamega']];
 			if (format === 'ubers' || format === 'uber') tierSet = tierSet.slice(slices.Uber);
 			else if (format === 'vgc2017') tierSet = tierSet.slice(slices.Regular);
 			else if (format === 'vgc2018') tierSet = tierSet.slice(slices.Regular);
@@ -853,18 +852,19 @@
 			else if (format === 'nu') tierSet = tierSet.slice(slices.NU);
 			else if (format === 'pu') tierSet = tierSet.slice(slices.PU || slices.NU);
 			else if (format === 'zu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+			else if (format === 'nfe') tierSet = tierSet.slice(slices.NFE);
 			else if (format === 'lc' || format === 'lcuu') tierSet = tierSet.slice(slices.LC);
 			else if (format === 'cap') tierSet = tierSet.slice(0, slices.Uber).concat(tierSet.slice(slices.OU));
 			else if (format === 'caplc') tierSet = tierSet.slice(slices['CAP LC'], slices.Uber).concat(tierSet.slice(slices.LC));
 			else if (format.startsWith('lc') || format.endsWith('lc')) tierSet = tierSet.slice(slices["LC Uber"]);
-			else if (format === 'anythinggoes' || format === 'ag') tierSet = agTierSet.concat(tierSet.slice(slices.Uber));
-			else if (format === 'balancedhackmons' || format === 'bh') tierSet = agTierSet.concat(tierSet.slice(slices.Uber));
+			else if (format === 'anythinggoes' || format === 'ag') tierSet = tierSet.slice(slices.AG || slices.Uber);
+			else if (format === 'balancedhackmons' || format === 'bh') tierSet = tierSet.slice(slices.AG || slices.Uber);
 			else if (format === 'doublesou') tierSet = tierSet.slice(slices.DOU);
 			else if (format === 'doublesuu') tierSet = tierSet.slice(slices.DUU);
 			else if (format === 'doublesnu') tierSet = tierSet.slice(slices.DNU || slices.DUU);
 			else if (isLetsGo) tierSet = tierSet.slice(slices.Uber);
 			// else if (isDoublesOrBS) tierSet = tierSet;
-			else if (!isDoublesOrBS) tierSet = tierSet.slice(slices.OU, slices.UU).concat(agTierSet).concat(tierSet.slice(slices.Uber, slices.OU)).concat(tierSet.slice(slices.UU));
+			else if (!isDoublesOrBS) tierSet = tierSet.slice(slices.OU, slices.UU).concat(tierSet.slice(slices.AG, slices.Uber)).concat(tierSet.slice(slices.Uber, slices.OU)).concat(tierSet.slice(slices.UU));
 
 			if (format === 'zu' && this.gen >= 7) {
 				tierSet = tierSet.filter(function (r) {
@@ -1042,13 +1042,13 @@
 					if (template.battleOnly) template = baseTemplate;
 					if (baseTemplate.otherFormes) {
 						for (var j = 0; j < baseTemplate.types.length; j++) {
-							if (template.forme.indexOf('Alola') >= 0 || template.forme.indexOf('Galar') > 0 || template.baseSpecies === 'Wormadam') continue;
+							if (template.forme.indexOf('Alola') >= 0 || template.forme.indexOf('Galar') >= 0 || template.baseSpecies === 'Wormadam') continue;
 							types.push(baseTemplate.types[j]);
 						}
 						for (var j = 0; j < baseTemplate.otherFormes.length; j++) {
 							var forme = Dex.getTemplate(baseTemplate.otherFormes[j]);
 							for (var h = 0; h < forme.types.length; h++) {
-								if (template.forme.indexOf('Alola') >= 0 || template.forme.indexOf('Galar') > 0 || forme.baseSpecies === 'Wormadam' || forme.battleOnly) continue;
+								if (template.forme.indexOf('Alola') >= 0 || template.forme.indexOf('Galar') >= 0 || forme.baseSpecies === 'Wormadam' || forme.battleOnly) continue;
 								types.push(forme.types[h]);
 							}
 						}

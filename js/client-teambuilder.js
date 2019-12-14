@@ -1144,7 +1144,7 @@
 			buf += '<span class="detailcell detailcell-first"><label>Level</label>' + (set.level || 100) + '</span>';
 			if (this.curTeam.gen > 1) {
 				buf += '<span class="detailcell"><label>Gender</label>' + GenderChart[set.gender || template.gender || 'N'] + '</span>';
-				buf += '<span class="detailcell"><label>Happiness</label>' + (typeof set.happiness === 'number' && !isLetsGo ? set.happiness : isLetsGo ? 70 : 255) + '</span>';
+				buf += '<span class="detailcell"><label>Happiness</label>' + (typeof set.happiness === 'number' && !isLetsGo ? set.happiness : isLetsGo ? 70 : this.curTeam.format.startsWith('gen8') ? 160 : 255) + '</span>';
 				buf += '<span class="detailcell"><label>Shiny</label>' + (set.shiny ? 'Yes' : 'No') + '</span>';
 			}
 			buf += '</button></div></div>';
@@ -1767,6 +1767,7 @@
 				smogdexid = 'meowstic-m';
 			} else if (template.forme) {
 				switch (template.baseSpecies) {
+				case 'Alcremie':
 				case 'Basculin':
 				case 'Burmy':
 				case 'Castform':
@@ -1782,8 +1783,10 @@
 				case 'Mimikyu':
 				case 'Minior':
 				case 'Pikachu':
+				case 'Polteageist':
 				case 'Sawsbuck':
 				case 'Shellos':
+				case 'Sinistea':
 				case 'Vivillon':
 					break;
 				default:
@@ -1792,7 +1795,7 @@
 				}
 			}
 
-			var generationNumber = 7;
+			var generationNumber = 8;
 			if (format.substr(0, 3) === 'gen') {
 				var number = format.charAt(3);
 				if ('1' <= number && number <= '6') {
@@ -1800,7 +1803,7 @@
 					format = format.substr(4);
 				}
 			}
-			var generation = ['rb', 'gs', 'rs', 'dp', 'bw', 'xy', 'sm'][generationNumber - 1];
+			var generation = ['rb', 'gs', 'rs', 'dp', 'bw', 'xy', 'sm', 'ss'][generationNumber - 1];
 			if (format === 'battlespotdoubles') {
 				smogdexid += '/vgc15';
 			} else if (format === 'doublesou' || format === 'doublesuu') {
@@ -2358,7 +2361,9 @@
 				}
 				buf += '</div></div>';
 
-				if (!isLetsGo) {
+				if (this.curTeam.format.startsWith('gen8')) {
+					buf += '<div class="formrow"><label class="formlabel">Happiness:</label><div><input type="number" min="0" max="160" step="1" name="happiness" value="' + (typeof set.happiness === 'number' ? set.happiness : 160) + '" class="textbox inputform numform" /></div></div>';
+				} else if (!isLetsGo) {
 					buf += '<div class="formrow"><label class="formlabel">Happiness:</label><div><input type="number" min="0" max="255" step="1" name="happiness" value="' + (typeof set.happiness === 'number' ? set.happiness : 255) + '" class="textbox inputform numform" /></div></div>';
 				} else {
 					buf += '<div class="formrow"><label class="formlabel">Happiness:</label><div><input type="number" name="happiness" value="70" class="textbox inputform numform" /></div></div>';
@@ -2457,7 +2462,9 @@
 			buf += '<span class="detailcell detailcell-first"><label>Level</label>' + (set.level || 100) + '</span>';
 			if (this.curTeam.gen > 1) {
 				buf += '<span class="detailcell"><label>Gender</label>' + GenderChart[set.gender || 'N'] + '</span>';
-				if (!this.curTeam.format.startsWith('gen7letsgo')) {
+				if (this.curTeam.format.startsWith('gen8')) {
+					 buf += '<span class="detailcell"><label>Happiness</label>' + (typeof set.happiness === 'number' ? set.happiness : 160) + '</span>';
+				} else if (!this.curTeam.format.startsWith('gen7letsgo')) {
 					buf += '<span class="detailcell"><label>Happiness</label>' + (typeof set.happiness === 'number' ? set.happiness : 255) + '</span>';
 				} else {
 					buf += '<span class="detailcell"><label>Happiness</label>70</span>';
@@ -2689,6 +2696,30 @@
 				set.evs = {hp: 36, atk: 252, def: 0, spa: 0, spd: 0, spe: 220};
 				set.ivs = {};
 				set.nature = 'Jolly';
+				this.updateSetTop();
+				this.$(!this.$('input[name=item]').length ? (this.$('input[name=ability]').length ? 'input[name=ability]' : 'input[name=move1]') : 'input[name=item]').select();
+				return true;
+			}
+			if (val === 'citizensnips' || val === 'snips') {
+				var set = this.curSet;
+				set.name = "citizen snips";
+				set.species = 'Drapion';
+				delete set.level;
+				var baseFormat = this.curTeam.format;
+				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
+				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
+				if (this.curTeam && this.curTeam.format) {
+					if (baseFormat === 'battlespotsingles' || baseFormat === 'battlespotdoubles' || baseFormat.substr(0, 3) === 'vgc') set.level = 50;
+					if (baseFormat.substr(0, 2) === 'lc') set.level = 5;
+				}
+				if (set.happiness) delete set.happiness;
+				if (set.shiny) delete set.shiny;
+				set.item = 'Leftovers';
+				set.ability = 'Battle Armor';
+				set.moves = ['Acupressure', 'Knock Off', 'Rest', 'Sleep Talk'];
+				set.evs = {hp: 248, atk: 0, def: 96, spa: 0, spd: 108, spe: 56};
+				set.ivs = {};
+				set.nature = 'Impish';
 				this.updateSetTop();
 				this.$(!this.$('input[name=item]').length ? (this.$('input[name=ability]').length ? 'input[name=ability]' : 'input[name=move1]') : 'input[name=item]').select();
 				return true;

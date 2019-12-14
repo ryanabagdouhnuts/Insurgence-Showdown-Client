@@ -342,7 +342,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
-			if (gen === 'gen6' && id in {ferroseed:1, pawniard:1, vullaby:1} && tier !== 'LC') {
+			if (gen === 'gen7' && id in {ferroseed:1} && tier !== 'LC') {
+				if (!tierTable['LC']) tierTable['LC'] = [];
+				tierTable['LC'].push(id);
+			} else if (gen === 'gen6' && id in {ferroseed:1, pawniard:1, vullaby:1} && tier !== 'LC') {
 				if (!tierTable['LC']) tierTable['LC'] = [];
 				tierTable['LC'].push(id);
 			} else if (gen === 'gen5' && id in {misdreavus:1, munchlax:1, ferroseed:1} && tier !== 'LC') {
@@ -353,7 +356,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				tierTable['LC'].push(id);
 			}
 
-			if (gen === 'gen7') {
+			if (genNum >= 7) {
 				let banlist = Dex.getFormat(gen + 'zu').banlist;
 				for (const ban of banlist) {
 					let baseTemplate = Dex.mod(gen).getTemplate(ban.endsWith('-Base') ? ban.slice(0, -5) : ban);
@@ -421,13 +424,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				return ["CAP", "CAP NFE", "CAP LC", "Uber", "OU", "UUBL", "UU", "RUBL", "RU", "NUBL", "NU", "NFE", "LC Uber", "LC"];
 			}
 			if (gen === 'gen7') {
-				return ["CAP", "CAP NFE", "CAP LC", "Uber", "OU", "UUBL", "(OU)", "UU", "RUBL", "RU", "NUBL", "NU", "PUBL", "PU", "(PU)", "New", "Unreleased", "NFE", "LC Uber", "LC"];
+				return ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "OU", "UUBL", "(OU)", "UU", "RUBL", "RU", "NUBL", "NU", "PUBL", "PU", "(PU)", "NFE", "LC Uber", "LC", "Unreleased"];
 			}
-			return ["CAP", "CAP NFE", "CAP LC", "Uber", "OU", "UUBL", "(OU)", "UU", "RUBL", "RU", "NUBL", "NU", "PUBL", "PU", "(PU)", "New", "NFE", "LC Uber", "LC"];
+			return ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "OU", "UUBL", "(OU)", "UU", "RUBL", "RU", "NUBL", "NU", "PUBL", "PU", "(PU)", "New", "NFE", "LC Uber", "LC", "Unreleased"];
 		})();
 
 		for (const tier of tierOrder) {
-			if (tier in {OU:1, Uber:1, UU:1, RU:1, NU:1, PU:1, "(PU)":1, LC:1, DOU:1, DUU:1, "(DUU)":1, New:1, Legal:1, Regular:1, "Restricted Legendary":1, "CAP LC":1}) {
+			if (tier in {OU:1, AG:1, Uber:1, UU:1, RU:1, NU:1, PU:1, "(PU)":1, NFE:1, LC:1, DOU:1, DUU:1, "(DUU)":1, New:1, Legal:1, Regular:1, "Restricted Legendary":1, "CAP LC":1}) {
 				let usedTier = tier;
 				if (usedTier === "(PU)") usedTier = "ZU";
 				if (usedTier === "(DUU)") usedTier = "DNU";
@@ -797,8 +800,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const pastEntry = genData.Items[id];
 			const nextEntry = nextGenData.Items[id];
 			if (!nextEntry) continue; // amulet coin
-			if (pastEntry.desc !== nextEntry.desc) {
-				overrideItemDesc[id] = pastEntry.desc;
+			if ((pastEntry.shortDesc || pastEntry.desc) !== (nextEntry.shortDesc || nextEntry.desc)) {
+				overrideItemDesc[id] = (pastEntry.shortDesc || pastEntry.desc);
 			}
 		}
 
@@ -808,8 +811,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const pastEntry = genData.Abilities[id];
 			const nextEntry = nextGenData.Abilities[id];
 			if (!nextEntry) continue; // amulet coin
-			if (pastEntry.desc !== nextEntry.desc) {
-				overrideAbilityDesc[id] = pastEntry.desc;
+			if ((pastEntry.shortDesc || pastEntry.desc) !== (nextEntry.shortDesc || nextEntry.desc)) {
+				overrideAbilityDesc[id] = (pastEntry.shortDesc || pastEntry.desc);
 			}
 		}
 	}
