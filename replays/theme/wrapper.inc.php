@@ -91,19 +91,19 @@ function ThemeFooterTemplate() {
 	<script>
 		soundManager.setup({url: '//play.pokemonshowdown.com/swf/'});
 	</script>
-	<script src="//play.pokemonshowdown.com/config/config.js?5822993c"></script>
-	<script src="//play.pokemonshowdown.com/js/battledata.js?5d783710"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex-mini.js?0.3649491856432734"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex-mini-bw.js?0.3812370535193297"></script>
+	<script src="//play.pokemonshowdown.com/config/config.js?43cfa078"></script>
+	<script src="//play.pokemonshowdown.com/js/battledata.js?1e44efb2"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex-mini.js?0.8922386930471284"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex-mini-bw.js?0.4737583285819609"></script>
 	<script src="//play.pokemonshowdown.com/data/graphics.js?cfaf5f7f"></script>
-	<script src="//play.pokemonshowdown.com/data/pokedex.js?76d93b58"></script>
-	<script src="//play.pokemonshowdown.com/data/items.js?25e770ce"></script>
-	<script src="//play.pokemonshowdown.com/data/moves.js?bd4e7954"></script>
-	<script src="//play.pokemonshowdown.com/data/abilities.js?a9f4894c"></script>
-	<script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?ef8859c2"></script>
-	<script src="//play.pokemonshowdown.com/js/battle-tooltips.js?b3f49851"></script>
+	<script src="//play.pokemonshowdown.com/data/pokedex.js?9a5bc4c8"></script>
+	<script src="//play.pokemonshowdown.com/data/items.js?7b0053e4"></script>
+	<script src="//play.pokemonshowdown.com/data/moves.js?9f9063f9"></script>
+	<script src="//play.pokemonshowdown.com/data/abilities.js?6f24b572"></script>
+	<script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?2d18bc53"></script>
+	<script src="//play.pokemonshowdown.com/js/battle-tooltips.js?aa0c5ebb"></script>
 	<script src="//play.pokemonshowdown.com/js/battle.js?4fc19bc5"></script>
-	<script src="/js/replay.js?ae51f013"></script>
+	<script src="/js/replay.js?51f4e8f1"></script>
 
 </body></html>
 <?php

@@ -362,7 +362,7 @@ zigzagoongalar:900+173,
 linoonegalar:900+174,
 darumakagalar:900+175,
 darmanitangalar:900+176,
-darmanitangalarzen:900+177,
+darmanitanzengalar:900+177,
 yamaskgalar:900+178,
 stunfiskgalar:900+179,
 cramorantgulping:900+180,
@@ -391,7 +391,7 @@ salazzletotem:758,
 vikavolttotem:738,
 togedemarutotem:777,
 mimikyutotem:778,
-mimikyutotembusted:778,
+mimikyubustedtotem:778,
 ribombeetotem:743,
 kommoototem:784,
 
@@ -1124,6 +1124,7 @@ Move=
 
 
 
+
 function Move(id,name,data){this.effectType='Move';
 if(!data||typeof data!=='object')data={};
 if(data.name)name=data.name;
@@ -1154,6 +1155,7 @@ this.zMoveBoost=data.zMoveBoost||null;
 this.ohko=data.ohko||null;
 this.recoil=data.recoil||null;
 this.heal=data.heal||null;
+this.multihit=data.multihit||null;
 this.hasCustomRecoil=data.hasCustomRecoil||false;
 this.noPPBoosts=data.noPPBoosts||false;
 this.secondaries=data.secondaries||(data.secondary?[data.secondary]:null);
@@ -1192,6 +1194,33 @@ this.gmaxPower=100;
 }else{
 this.gmaxPower=90;
 }
+}
+}
+if(this.category!=='Status'&&!this.zMovePower){
+var basePower=this.basePower;
+if(Array.isArray(this.multihit))basePower*=3;
+if(!basePower){
+this.zMovePower=100;
+}else if(basePower>=140){
+this.zMovePower=200;
+}else if(basePower>=130){
+this.zMovePower=195;
+}else if(basePower>=120){
+this.zMovePower=190;
+}else if(basePower>=110){
+this.zMovePower=185;
+}else if(basePower>=100){
+this.zMovePower=180;
+}else if(basePower>=90){
+this.zMovePower=175;
+}else if(basePower>=80){
+this.zMovePower=160;
+}else if(basePower>=70){
+this.zMovePower=140;
+}else if(basePower>=60){
+this.zMovePower=120;
+}else{
+this.zMovePower=100;
 }
 }
 

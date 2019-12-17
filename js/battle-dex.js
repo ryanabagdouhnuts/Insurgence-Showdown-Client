@@ -673,7 +673,7 @@ num=BattlePokemonSprites[id].num;
 num=BattlePokedex[id].num;
 }
 if(num<0)num=0;
-if(num>809)num=0;
+if(num>890)num=0;
 
 if((_window$BattlePokemon3=window.BattlePokemonIconIndexes)==null?void 0:_window$BattlePokemon3[id]){
 num=BattlePokemonIconIndexes[id];
@@ -713,7 +713,7 @@ var num=this.getPokemonIconNum(id,(pokemon==null?void 0:pokemon.gender)==='F',fa
 var top=Math.floor(num/12)*30;
 var left=num%12*40;
 var fainted=(pokemon==null?void 0:pokemon.fainted)?";opacity:.3;filter:grayscale(100%) brightness(.5)":"";
-return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-sheet.png) no-repeat scroll -"+left+"px -"+top+"px"+fainted;
+return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-sheet.png?g8) no-repeat scroll -"+left+"px -"+top+"px"+fainted;
 };_proto.
 
 getTeambuilderSprite=function getTeambuilderSprite(pokemon){var gen=arguments.length>1&&arguments[1]!==undefined?arguments[1]:0;
@@ -768,7 +768,7 @@ if((_item=item)==null?void 0:_item.spritenum)num=item.spritenum;
 
 var top=Math.floor(num/16)*24;
 var left=num%16*24;
-return'background:transparent url('+Dex.resourcePrefix+'sprites/itemicons-sheet.png) no-repeat scroll -'+left+'px -'+top+'px';
+return'background:transparent url('+Dex.resourcePrefix+'sprites/itemicons-sheet.png?g8) no-repeat scroll -'+left+'px -'+top+'px';
 };_proto.
 
 getTypeIcon=function getTypeIcon(type,b){

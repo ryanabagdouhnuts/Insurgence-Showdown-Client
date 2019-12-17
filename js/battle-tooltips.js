@@ -906,7 +906,7 @@ stats.atk=Math.floor(stats.atk*1.5);
 if(ability==='purepower'||ability==='hugepower'){
 stats.atk*=2;
 }
-if(ability==='hustle'){
+if(ability==='hustle'||ability==='gorillatactics'){
 stats.atk=Math.floor(stats.atk*1.5);
 }
 if(weather){
@@ -1438,6 +1438,12 @@ value.abilityModify(1.3,"Sheer Force");
 if(move.flags['contact']){
 value.abilityModify(1.3,"Tough Claws");
 }
+if(moveType==='Steel'){
+value.abilityModify(1.5,"Steely Spirit");
+}
+if(move.flags['sound']){
+value.abilityModify(1.3,"Punk Rock");
+}
 if(target){
 if(["MF","FM"].includes(pokemon.gender+target.gender)){
 value.abilityModify(0.75,"Rivalry");
@@ -1482,6 +1488,10 @@ auraBroken=true;
 if(ally!==pokemon&&move.category==='Special'){
 value.modify(1.3,'Battery');
 }
+}else if(allyAbility==='Power Spot'){
+if(ally!==pokemon){
+value.modify(1.3,'Power Spot');
+}
 }
 }for(var _i21=0,_pokemon$side$foe$act=
 pokemon.side.foe.active;_i21<_pokemon$side$foe$act.length;_i21++){var foe=_pokemon$side$foe$act[_i21];
@@ -1508,7 +1518,7 @@ if(this.battle.hasPseudoWeather('Electric Terrain')&&moveType==='Electric'||
 this.battle.hasPseudoWeather('Grassy Terrain')&&moveType==='Grass'||
 this.battle.hasPseudoWeather('Psychic Terrain')&&moveType==='Psychic'){
 if(pokemon.isGrounded(serverPokemon)){
-value.modify(1.5,'Terrain boost');
+value.modify(this.battle.gen>7?1.3:1.5,'Terrain boost');
 }
 }else if(this.battle.hasPseudoWeather('Misty Terrain')&&moveType==='Dragon'){
 if(target?target.isGrounded():true){

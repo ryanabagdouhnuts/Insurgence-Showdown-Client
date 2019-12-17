@@ -221,7 +221,7 @@ pokeballs=null;this.
 resourcePrefix=function(){var _window$document,_window$document$loca;
 var prefix='';
 if(((_window$document=window.document)==null?void 0:(_window$document$loca=_window$document.location)==null?void 0:_window$document$loca.protocol)!=='http:')prefix='https:';
-return prefix+"//raw.githubusercontent.com/Poilerwags/Sprites/master/play.pokemonshowdown.com/";
+return prefix+"//play.pokemonshowdown.com/";
 }();this.
 
 fxPrefix=function(){var _window$document2,_window$document2$loc;
@@ -673,7 +673,7 @@ num=BattlePokemonSprites[id].num;
 num=BattlePokedex[id].num;
 }
 if(num<0)num=0;
-if(num>809)num=0;
+if(num>890)num=0;
 
 if((_window$BattlePokemon3=window.BattlePokemonIconIndexes)==null?void 0:_window$BattlePokemon3[id]){
 num=BattlePokemonIconIndexes[id];
@@ -713,7 +713,7 @@ var num=this.getPokemonIconNum(id,(pokemon==null?void 0:pokemon.gender)==='F',fa
 var top=Math.floor(num/12)*30;
 var left=num%12*40;
 var fainted=(pokemon==null?void 0:pokemon.fainted)?";opacity:.3;filter:grayscale(100%) brightness(.5)":"";
-return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-sheet.png) no-repeat scroll -"+left+"px -"+top+"px"+fainted;
+return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-sheet.png?g8) no-repeat scroll -"+left+"px -"+top+"px"+fainted;
 };_proto.
 
 getTeambuilderSprite=function getTeambuilderSprite(pokemon){var gen=arguments.length>1&&arguments[1]!==undefined?arguments[1]:0;
@@ -768,7 +768,7 @@ if((_item=item)==null?void 0:_item.spritenum)num=item.spritenum;
 
 var top=Math.floor(num/16)*24;
 var left=num%16*24;
-return'background:transparent url('+Dex.resourcePrefix+'sprites/itemicons-sheet.png) no-repeat scroll -'+left+'px -'+top+'px';
+return'background:transparent url('+Dex.resourcePrefix+'sprites/itemicons-sheet.png?g8) no-repeat scroll -'+left+'px -'+top+'px';
 };_proto.
 
 getTypeIcon=function getTypeIcon(type,b){
@@ -1307,7 +1307,7 @@ zigzagoongalar:900+173,
 linoonegalar:900+174,
 darumakagalar:900+175,
 darmanitangalar:900+176,
-darmanitangalarzen:900+177,
+darmanitanzengalar:900+177,
 yamaskgalar:900+178,
 stunfiskgalar:900+179,
 cramorantgulping:900+180,
@@ -1336,7 +1336,7 @@ salazzletotem:758,
 vikavolttotem:738,
 togedemarutotem:777,
 mimikyutotem:778,
-mimikyutotembusted:778,
+mimikyubustedtotem:778,
 ribombeetotem:743,
 kommoototem:784,
 
@@ -2069,6 +2069,7 @@ Move=
 
 
 
+
 function Move(id,name,data){this.effectType='Move';
 if(!data||typeof data!=='object')data={};
 if(data.name)name=data.name;
@@ -2099,6 +2100,7 @@ this.zMoveBoost=data.zMoveBoost||null;
 this.ohko=data.ohko||null;
 this.recoil=data.recoil||null;
 this.heal=data.heal||null;
+this.multihit=data.multihit||null;
 this.hasCustomRecoil=data.hasCustomRecoil||false;
 this.noPPBoosts=data.noPPBoosts||false;
 this.secondaries=data.secondaries||(data.secondary?[data.secondary]:null);
@@ -2137,6 +2139,33 @@ this.gmaxPower=100;
 }else{
 this.gmaxPower=90;
 }
+}
+}
+if(this.category!=='Status'&&!this.zMovePower){
+var basePower=this.basePower;
+if(Array.isArray(this.multihit))basePower*=3;
+if(!basePower){
+this.zMovePower=100;
+}else if(basePower>=140){
+this.zMovePower=200;
+}else if(basePower>=130){
+this.zMovePower=195;
+}else if(basePower>=120){
+this.zMovePower=190;
+}else if(basePower>=110){
+this.zMovePower=185;
+}else if(basePower>=100){
+this.zMovePower=180;
+}else if(basePower>=90){
+this.zMovePower=175;
+}else if(basePower>=80){
+this.zMovePower=160;
+}else if(basePower>=70){
+this.zMovePower=140;
+}else if(basePower>=60){
+this.zMovePower=120;
+}else{
+this.zMovePower=100;
 }
 }
 
@@ -3320,7 +3349,6 @@ exports.BattleText = {
 		// message happens AFTER "Pokemon used Move!"
 		cant: "[POKEMON] can't use [MOVE]!",
 		cantNoMove: "[POKEMON] can't move!",
-		block: "  ([POKEMON] blocked the effect!)",
 		fail: "  But it failed!",
 
 		// n.b. this is the default message for in-battle forme changes
@@ -3538,6 +3566,7 @@ exports.BattleText = {
 		start: "  ([POKEMON]'s Dynamax!)",
 		end: "  ([POKEMON] returned to normal!)",
 		block: "  The move was blocked by the power of Dynamax!",
+		fail: "  [POKEMON] shook its head. It seems like it can't use this move...",
 	},
 
 	// weather
@@ -3813,9 +3842,6 @@ exports.BattleText = {
 	geomancy: {
 		prepare: "[POKEMON] is absorbing power!",
 	},
-	grassknot: {
-		fail: "  [POKEMON] shook its head. It seems like it can't use this move...",
-	},
 	grasspledge: {
 		activate: "#waterpledge",
 		start: "  A swamp enveloped [TEAM]!",
@@ -3841,12 +3867,6 @@ exports.BattleText = {
 	},
 	healingwish: {
 		heal: "  The healing wish came true for [POKEMON]!",
-	},
-	heatcrash: {
-		fail: "#grassknot",
-	},
-	heavyslam: {
-		fail: "#grassknot",
 	},
 	helpinghand: {
 		start: "  [SOURCE] is ready to help [POKEMON]!",
@@ -3907,9 +3927,6 @@ exports.BattleText = {
 	},
 	lockon: {
 		start: "  [SOURCE] took aim at [POKEMON]!",
-	},
-	lowkick: {
-		fail: "#grassknot",
 	},
 	luckychant: {
 		start: "  Lucky Chant shielded [TEAM] from critical hits!",
