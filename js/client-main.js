@@ -259,7 +259,7 @@ if(room.connectWhenLoggedIn)room.connect();
 
 PSServer=function(){function PSServer(){this.
 id='showdown';this.
-host='sim2.psim.us';this.
+host='sim3.psim.us';this.
 port=8000;this.
 altport=80;this.
 registered=true;this.
