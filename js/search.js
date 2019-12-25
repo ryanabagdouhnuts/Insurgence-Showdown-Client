@@ -35,6 +35,7 @@
 		this.$inputEl = null;
 		this.gen = 8;
 		this.isDoubles = false;
+		this.isNatDex = false;
 
 		var self = this;
 		this.$el.on('click', '.more button', function (e) {
@@ -802,9 +803,15 @@
 		if (format.includes('doubles')) this.isDoubles = true;
 		var isLetsGo = format.startsWith('letsgo');
 		if (isLetsGo) format = format.slice(6);
+		var isNatDex = format.startsWith('nationaldex');
+		if (isNatDex) {
+			format = format.slice(11);
+			this.isNatDex = true;
+			if (!format) format = 'ou';
+		}
 		var requirePentagon = (format === 'battlespotsingles' || format === 'battledoubles' || format.slice(0, 3) === 'vgc');
 		 // CAP check is temporary
-		var requireGalar = (this.gen === 8 && format.indexOf('nationaldex') < 0 && format.indexOf('cap') < 0);
+		var requireGalar = (this.gen === 8 && !isNatDex && format.indexOf('cap') < 0);
 		var template;
 		var isBH = (format === 'balancedhackmons' || format === 'bh');
 		this.resultSet = null;
@@ -829,6 +836,8 @@
 				table = table['gen' + this.gen];
 			} else if (isLetsGo) {
 				table = table['letsgo'];
+			} else if (isNatDex) {
+				table = table['natdex'];
 			}
 
 			if (!table.tierSet) {
@@ -972,7 +981,7 @@
 						} else if (learnsetEntry.indexOf(gen) < 0) {
 							continue;
 						}
-						if (this.gen === 8 && BattleMovedex[moveid].isNonstandard === "Past" && format.indexOf('nationaldex') < 0) continue;
+						if (this.gen === 8 && BattleMovedex[moveid].isNonstandard === "Past" && !isNatDex) continue;
 						if (moves.indexOf(moveid) >= 0) continue;
 						moves.push(moveid);
 						if (moveid === 'sketch') sketch = true;
@@ -1093,10 +1102,12 @@
 				var isViable = BattleMovedex[id] && BattleMovedex[id].isViable;
 				if (id === 'aerialace') isViable = (toID(set.species) in {scyther:1, aerodactylmega:1, kricketune:1});
 				if (id === 'ancientpower') isViable = (toID(set.ability) === 'technician' || (toID(set.ability) === 'serenegrace') || (template.types.indexOf('rock') > 0 && moves.indexOf('powergem') < 0));
+				if (id === 'aurawheel') isViable = (toID(set.species).startsWith('morpeko'));
 				if (id === 'bellydrum') isViable = (toID(set.species) in {azumarill:1, linoone:1, slurpuff:1});
 				if (id === 'blizzard') isViable = (toID(set.ability) === 'snowwarning');
 				if (id === 'counter') isViable = (toID(set.species) in {chansey:1, skarmory:1, clefable:1, wobbuffet:1, alakazam:1});
 				if (id === 'curse') isViable = (toID(set.species) === 'snorlax');
+				if (id === 'darkvoid') isViable = (this.gen < 7);
 				if (id === 'drainingkiss') isViable = (toID(set.ability) === 'triage');
 				if (id === 'dynamicpunch') isViable = (toID(set.ability) === 'noguard');
 				if (id === 'electroball') isViable = (toID(set.ability) === 'surgesurfer');
@@ -1108,6 +1119,7 @@
 				if (id === 'hiddenpowerfire') isViable = (moves.indexOf('flamethrower') < 0);
 				if (id === 'hiddenpowergrass') isViable = (moves.indexOf('energyball') < 0 && moves.indexOf('gigadrain') < 0);
 				if (id === 'hiddenpowerice') isViable = (moves.indexOf('icebeam') < 0 && template.id !== 'xerneas');
+				if (id === 'hyperspacefury') isViable = (toID(set.species) === 'hoopaunbound');
 				if (id === 'hypnosis') isViable = ((this.gen < 4 && moves.indexOf('sleeppowder') < 0) || (toID(set.species) === 'darkrai'));
 				if (id === 'icywind') isViable = (toID(set.species).substr(0, 6) === 'keldeo');
 				if (id === 'infestation') isViable = (toID(set.species) === 'shuckle');
@@ -1121,10 +1133,11 @@
 				if (id === 'skyattack') isViable = (toID(set.species) === 'hawlucha');
 				if (id === 'smackdown') isViable = (template.types.indexOf('ground') > 0);
 				if (id === 'smartstrike') isViable = (template.types.indexOf('steel') > 0 && moves.indexOf('ironhead') < 0);
-				if (id === 'solarbeam') isViable = (toID(set.abilities) in {drought:1, chlorophyll:1});
+				if (id === 'solarbeam' || id === 'solarblade') isViable = ['desolateland', 'drought', 'chlorophyll'].includes(toID(set.ability));
 				if (id === 'stompingtantrum') isViable = ((moves.indexOf('earthquake') < 0 && moves.indexOf('drillrun') < 0) || (toID(set.ability) === 'toughclaws' && moves.indexOf('drillrun') < 0 && moves.indexOf('earthquake') < 0));
 				if (id === 'storedpower') isViable = (toID(set.species) in {necrozma:1, espeon:1, sigilyph:1});
 				if (id === 'stunspore') isViable = (moves.indexOf('thunderwave') < 0);
+				if (id === 'teleport') isViable = (this.gen > 7);
 				if (id === 'thunder') isViable = (toID(set.ability) === 'drizzle' || (toID(set.ability) === 'primordialsea') || (toID(set.species) === 'xerneas'));
 				if (id === 'trickroom') isViable = (template.baseStats.spe <= 100);
 				if (id === 'waterpulse') isViable = (toID(set.ability) === 'megalauncher' && moves.indexOf('originpulse') < 0);
@@ -1341,6 +1354,7 @@
 		} else {
 			tier = Dex.getTier(Dex.forGen(this.gen).getTemplate(pokemon.baseSpecies), this.gen, this.isDoubles);
 		}
+		if (this.isNatDex) tier = (pokemon.num >= 0 ? pokemon.num : 'CAP');
 		buf += '<span class="col numcol">' + tier + '</span> ';
 
 		// icon
